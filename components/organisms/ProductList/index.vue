@@ -1,20 +1,23 @@
 <template lang="pug">
   .product-list
-    v-card.mx-auto(max-width='344', outlined='')
-      v-list-item(three-line='')
-        v-list-item-content
-          .overline.mb-4 OVERLINE
-          v-list-item-title.headline.mb-1 Headline 5
-          v-list-item-subtitle Greyhound divisely hello coldly fonwderfully
-        v-list-item-avatar(tile='', size='80', color='grey')
-      v-card-actions
-        v-btn(text='') Button
-        v-btn(text='') Button
+    ul(v-for='product in products')
+      li {{ product.name }}
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  name: 'ProductList'
+  name: 'ProductList',
+  computed: {
+    ...mapGetters('products', ['products'])
+  },
+  created() {
+    this.fetchProducts()
+  },
+  methods: {
+    ...mapActions('products', ['fetchProducts'])
+  }
 }
 </script>
 
