@@ -1,8 +1,8 @@
 <template lang="pug">
   header.shopping-cart-header
+    img.shopping-cart-header__logo(:src="logoSrc")
     .shopping-cart-header__title
      | Shopping Cart App
-    img.shopping-cart-header__logo(:src="logoSrc")
     .shopping-cart-header__login
       button Login
     .shopping-cart-header__cart
