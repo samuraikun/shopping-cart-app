@@ -1,17 +1,18 @@
 <template lang="pug">
 HeaderAndMain(:wideHeader="true")
   template(slot="header")
-    p Header
+    AppHeader
   template(slot="main")
     p Main
 </template>
 
 <script>
 import HeaderAndMain from '../components/templates/HeaderAndMain'
+import AppHeader from '../components/organisms/AppHeader'
 
 export default {
   name: 'App',
-  components: { HeaderAndMain }
+  components: { HeaderAndMain, AppHeader }
 }
 </script>
 
