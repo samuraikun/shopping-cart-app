@@ -1,12 +1,18 @@
 <template lang="pug">
-section.container
-  div
-    h1.title
-      | shopping-cart
+HeaderAndMain(:wideHeader="true")
+  template(slot="header")
+    p Header
+  template(slot="main")
+    p Main
 </template>
 
 <script>
-export default {}
+import HeaderAndMain from '../components/templates/HeaderAndMain'
+
+export default {
+  name: 'App',
+  components: { HeaderAndMain }
+}
 </script>
 
 <style lang="scss">
