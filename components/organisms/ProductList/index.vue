@@ -13,6 +13,7 @@
       v-card-title
         p {{ product.price }}円
       v-card-actions
+        v-btn(color='orange') 詳細へ
         v-btn(color='primary' dark) カートに追加
 </template>
 
