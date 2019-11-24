@@ -9,7 +9,7 @@ import { mapGetters } from 'vuex';
       button.shopping-cart-header__login__button(v-if='isAuthenticated' type='button' @click='logout') ログアウト
       nuxt-link.shopping-cart-header__login__button(v-else to='/login') ログイン
     .shopping-cart-header__cart
-      nuxt-link(to="/carts")
+      nuxt-link(to="/cart")
         img.shopping-cart-header__cart__logo(:src="logoSrc")
 </template>
 
