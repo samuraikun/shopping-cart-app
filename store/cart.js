@@ -25,12 +25,29 @@ export const mutations = {
 }
 
 export const actions = {
-  fetchItems({ commit, state }) {
+  async fetchItems({ commit, rootGetters, state }) {
     if (state.isFetching) return
     commit('setIsFetching', true)
 
     try {
-      const products = []
+      const firestore = firebase.firestore()
+      const userUid = rootGetters['user/user'].uid
+      const customerRef = await firestore
+        .collection('customers')
+        .doc(userUid)
+        .get()
+
+      const result = customerRef.data()
+      const customerCartRef = await result.cartRef
+      const productsSnapshot = await customerCartRef
+        .collection('products')
+        .get()
+
+      let products = []
+      productsSnapshot.forEach(doc => {
+        products.push(doc.data())
+      })
+
       commit('setItems', { products })
     } catch (e) {
       console.log(e)
