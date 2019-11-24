@@ -1,8 +1,6 @@
-const functions = require('firebase-functions');
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+/*
+ * Triggers when was created new user, user account is saved Firestore.
+ */
+if (!process.env.FUNCTION_NAME || process.env.FUNCTION_NAME === 'saveUser') {
+  exports.saveUser = require('./saveUser').saveUser
+}
