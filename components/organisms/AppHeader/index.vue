@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex';
 <template lang="pug">
   header.shopping-cart-header
     img.shopping-cart-header__logo(:src="logoSrc")
@@ -5,13 +6,17 @@
       nuxt-link.shopping-cart-header__title__link(to='/')
         | Shopping Cart App
     .shopping-cart-header__login
-      nuxt-link.shopping-cart-header__login__button(to='/login') ログイン
+      button.shopping-cart-header__login__button(v-if='isAuthenticated' type='button' @click='logout') ログアウト
+      nuxt-link.shopping-cart-header__login__button(v-else to='/login') ログイン
     .shopping-cart-header__cart
       nuxt-link(to="/carts")
         img.shopping-cart-header__cart__logo(:src="logoSrc")
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import firebase from '~/plugins/firebase'
+
 export default {
   name: 'AppHeader',
   props: {
@@ -20,6 +25,14 @@ export default {
       required: false,
       default:
         'https://img.icons8.com/pastel-glyph/64/000000/shopping-cart--v2.png'
+    }
+  },
+  computed: {
+    ...mapGetters('user', ['isAuthenticated'])
+  },
+  methods: {
+    logout() {
+      firebase.auth().signOut()
     }
   }
 }
