@@ -1,6 +1,6 @@
 <template lang="pug">
   .product-list
-    v-card(v-for='product in products' :key='product.name' class='mx-auto' width='400' outlined)
+    v-card(v-for='(product, index) in products' :key='index' class='mx-auto' width='400' outlined)
       v-img(
         class="white--text align-end"
         height="200px"
@@ -14,7 +14,7 @@
         p {{ product.price }}円
       v-card-actions
         v-btn(color='orange') 詳細へ
-        v-btn(color='primary' dark @click='addToCart') カートに追加
+        v-btn(color='primary' :loading='isFetching' :disabled='isFetching' dark @click='() => addToCart(index)') カートに追加
 </template>
 
 <script>
@@ -23,16 +23,19 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ProductList',
   computed: {
-    ...mapGetters('products', ['products'])
+    ...mapGetters('user', ['user']),
+    ...mapGetters('products', ['products']),
+    ...mapGetters('cart', ['isFetching'])
   },
   created() {
     this.fetchProducts()
   },
   methods: {
     ...mapActions('products', ['fetchProducts']),
+    ...mapActions('cart', ['addItem']),
 
-    addToCart() {
-      console.log('add cart')
+    addToCart(index) {
+      this.addItem(this.products[index])
     }
   }
 }

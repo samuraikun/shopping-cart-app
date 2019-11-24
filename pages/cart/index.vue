@@ -1,10 +1,10 @@
 <template lang="pug">
-  p {{ cart.name }}
+  p {{ 'カート' || cart.name }}
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import firebase from 'firebase'
+import firebase from '~/plugins/firebase'
 export default {
   name: 'Cart',
   data() {
@@ -15,7 +15,7 @@ export default {
   computed: {
     ...mapGetters('user', ['user'])
   },
-  async mounted() {
+  async created() {
     const firestore = firebase.firestore()
     const userSnapshot = await firestore
       .collection('customers')

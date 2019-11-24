@@ -1,4 +1,5 @@
-// import firebase from '~/plugins/firebase'
+import cloneDeep from 'lodash.clonedeep'
+import firebase from '~/plugins/firebase'
 
 export const state = () => ({
   items: [],
@@ -37,5 +38,32 @@ export const actions = {
       commit('setIsFetching', false)
     }
   },
-  addItem({ commit }) {}
+  async addItem({ commit, rootGetters }, product) {
+    if (state.isFetching) return
+    commit('setIsFetching', true)
+
+    try {
+      // UserドキュメントからCartドキュメントを取得
+      const firestore = firebase.firestore()
+      const userUid = rootGetters['user/user'].uid
+      const customerRef = await firestore
+        .collection('customers')
+        .doc(userUid)
+        .get()
+
+      const result = customerRef.data()
+      const customerCartRef = await result.cartRef
+
+      const addedProductRef = await customerCartRef
+        .collection('products')
+        .add(product)
+      const addedProductSnapshot = await addedProductRef.get()
+      const addedProduct = addedProductSnapshot.data()
+      commit('setItem', { product: cloneDeep(addedProduct) })
+    } catch (e) {
+      console.log(e)
+    } finally {
+      commit('setIsFetching', false)
+    }
+  }
 }
