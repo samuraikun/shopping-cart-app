@@ -1,7 +1,5 @@
 import firebase from '~/plugins/firebase'
 
-export const strict = false
-
 export const state = () => ({
   products: [],
   isFetching: false
@@ -14,7 +12,6 @@ export const getters = {
 
 export const mutations = {
   setProducts(state, { products }) {
-    console.log(products)
     state.products = products
   },
   setIsFetching(state, next) {

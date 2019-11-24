@@ -1,6 +1,6 @@
 <template lang="pug">
   .product-list
-    v-card(v-for='product in products' class='mx-auto' width='400' outlined)
+    v-card(v-for='product in products' :key='product.name' class='mx-auto' width='400' outlined)
       v-img(
         class="white--text align-end"
         height="200px"
@@ -14,7 +14,7 @@
         p {{ product.price }}円
       v-card-actions
         v-btn(color='orange') 詳細へ
-        v-btn(color='primary' dark) カートに追加
+        v-btn(color='primary' dark @click='addToCart') カートに追加
 </template>
 
 <script>
@@ -29,7 +29,11 @@ export default {
     this.fetchProducts()
   },
   methods: {
-    ...mapActions('products', ['fetchProducts'])
+    ...mapActions('products', ['fetchProducts']),
+
+    addToCart() {
+      console.log('add cart')
+    }
   }
 }
 </script>
