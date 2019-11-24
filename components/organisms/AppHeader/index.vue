@@ -5,7 +5,7 @@
       nuxt-link.shopping-cart-header__title__link(to='/')
         | Shopping Cart App
     .shopping-cart-header__login
-      button.shopping-cart-header__login__button ログイン
+      nuxt-link.shopping-cart-header__login__button(to='/login') ログイン
     .shopping-cart-header__cart
       nuxt-link(to="/carts")
         img.shopping-cart-header__cart__logo(:src="logoSrc")
