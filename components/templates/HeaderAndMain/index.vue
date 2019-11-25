@@ -1,5 +1,5 @@
 <template lang="pug">
-.t-header-and-main
+.t-header-and-main(:class="headerStyleClass")
   .t-header-and-main__header
     slot(name="header")
   .t-header-and-main__main

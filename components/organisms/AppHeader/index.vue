@@ -47,10 +47,10 @@ export default {
 .shopping-cart-header {
   display: grid;
   grid-template:
-    ' .    .    .   .   .    .   .   .  ' 1fr
-    ' .   logo  . title .  login . cart ' 22px
-    ' .    .    .   .   .    .   .   .  ' 1fr /
-    5px auto 5px auto 1fr auto 5px auto;
+    ' .    .    .   .   .    .   .   .  . ' 1fr
+    ' .   logo  . title .  login . cart . ' 22px
+    ' .    .    .   .   .    .   .   .  . ' 1fr /
+    5px auto 5px auto 1fr auto 5px auto 10px;
   height: 100%;
   background-color: #ffffff;
 
