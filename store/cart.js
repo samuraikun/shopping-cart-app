@@ -70,11 +70,24 @@ export const actions = {
       const result = customerRef.data()
       const customerCartRef = await result.cartRef
 
-      await customerCartRef
+      // カートに追加するProduct Documentを生成
+      const addedProductDocRef = await customerCartRef
         .collection('products')
-        .doc(product.id)
-        .set(product)
-      commit('setItem', { product: cloneDeep(product) })
+        .doc()
+      // カートに追加するDocumentデータを生成
+      // 各種必要なリレーションを定義。
+      // belongs_to: products/{productID}, belongs_to: carts/{cartID}
+      const newProduct = cloneDeep({
+        ...product,
+        id: addedProductDocRef.id,
+        productRef: firestore.doc(`products/${product.id}`),
+        cartRef: firestore.doc(`carts/${customerCartRef.id}`)
+      })
+      await addedProductDocRef.set(newProduct)
+
+      commit('setItem', {
+        product: newProduct
+      })
     } catch (e) {
       console.log(e)
     } finally {
@@ -97,9 +110,16 @@ export const actions = {
       const result = customerRef.data()
       const customerCartRef = await result.cartRef
 
-      await customerCartRef
+      // Productの Document IDを取得するためにQuerySnapshotを取得
+      const deletedProductSnapshot = await customerCartRef
         .collection('products')
-        .doc(productId)
+        .where('id', '==', productId)
+        .get()
+      // 取得したQuerySnapshotから削除対象のProduct Document ID を取得してから削除する
+      const productDocSnapshot = deletedProductSnapshot.docs[0]
+      customerCartRef
+        .collection('products')
+        .doc(productDocSnapshot.id)
         .delete()
 
       const nextProducts = prevItems.filter(product => product.id !== productId)
