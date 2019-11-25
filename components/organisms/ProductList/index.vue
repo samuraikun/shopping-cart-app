@@ -12,8 +12,7 @@
         p {{ product.description }}
       v-card-title
         p {{ product.price }}円
-      v-card-actions
-        v-btn(color='orange') 詳細へ
+      v-card-actions.product-list__card_actions
         v-btn(color='primary' :loading='isFetching' :disabled='isFetching' dark @click='() => addToCart(index)') カートに追加
 </template>
 

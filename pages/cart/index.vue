@@ -48,16 +48,5 @@ export default {
   display: flex;
   min-width: 100%;
   justify-content: space-around;
-
-  // &__existing {
-  //   min-width: 100%;
-  //   justify-content: space-around;
-  // }
-
-  // &__nothing {
-  //   min-width: 100%;
-  //   justify-content: center;
-  //   flex-direction: column;
-  // }
 }
 </style>
