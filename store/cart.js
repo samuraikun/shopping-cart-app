@@ -8,7 +8,6 @@ export const state = () => ({
 
 export const getters = {
   items: state => state.items,
-  quantity: state => state.items.length,
   isFetching: state => state.isFetching
 }
 
@@ -71,16 +70,44 @@ export const actions = {
       const result = customerRef.data()
       const customerCartRef = await result.cartRef
 
-      const addedProductRef = await customerCartRef
+      await customerCartRef
         .collection('products')
-        .add(product)
-      const addedProductSnapshot = await addedProductRef.get()
-      const addedProduct = addedProductSnapshot.data()
-      commit('setItem', { product: cloneDeep(addedProduct) })
+        .doc(product.id)
+        .set(product)
+      commit('setItem', { product: cloneDeep(product) })
     } catch (e) {
       console.log(e)
     } finally {
       commit('setIsFetching', false)
+    }
+  },
+  async deleteItem({ commit, getters, rootGetters }, productId) {
+    if (state.isFetching) return
+    commit('setIsFetching', true)
+
+    try {
+      const prevItems = cloneDeep(getters.items)
+      const firestore = firebase.firestore()
+      const userUid = rootGetters['user/user'].uid
+      const customerRef = await firestore
+        .collection('customers')
+        .doc(userUid)
+        .get()
+
+      const result = customerRef.data()
+      const customerCartRef = await result.cartRef
+
+      await customerCartRef
+        .collection('products')
+        .doc(productId)
+        .delete()
+
+      const nextProducts = prevItems.filter(product => product.id !== productId)
+      commit('setItems', { products: nextProducts })
+    } catch (e) {
+      console.log(e)
+    } finally {
+      commit('setIsFetching', true)
     }
   }
 }

@@ -13,6 +13,8 @@
           p {{ product.description }}
         v-card-title
           p {{ product.price }}円
+        v-card-actions
+          v-btn(color='primary' dark @click='() => removeFromCart(products[index].id)') カートから削除
     template(v-else)
       div(:style="{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }")
         h1  カートにはまだなにもありません。
@@ -32,7 +34,11 @@ export default {
     this.fetchItems()
   },
   methods: {
-    ...mapActions('cart', ['fetchItems'])
+    ...mapActions('cart', ['fetchItems', 'deleteItem']),
+
+    removeFromCart(productId) {
+      this.deleteItem(productId)
+    }
   }
 }
 </script>
