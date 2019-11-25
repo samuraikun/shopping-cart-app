@@ -107,7 +107,7 @@ export const actions = {
     } catch (e) {
       console.log(e)
     } finally {
-      commit('setIsFetching', true)
+      commit('setIsFetching', false)
     }
   }
 }
